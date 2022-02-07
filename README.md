@@ -6,6 +6,13 @@ The format it is saved in is not great and all but that's a start.
 
 **Also, the google scholar scrape is really (really) slow**
 
+All the data scraped here is to be taken with a grain of salt.
+Even though it is likely that the people that are pulled in google scholar are the people who applied, it is not necessarily true. Therefore the data might be somewhat erroneous.
+
+Moreover, not everyone can be found on google scholar, so the data is only partial.
+
+Finally, some people have homonyms, because I would rather have no data than false data, I decided to discard data points when multiple hit where found by google scholar.
+
 ## Dependencies
 
 If one just wants to scrap the data:
