@@ -3,21 +3,33 @@ import pandas as pd
 from scholarly import scholarly
 import urllib.request
 import argparse
+from pathlib import Path
 
 def get_candidates(years_to_check, sections_to_check):
     result_page = "https://www.coudert.name/concours_cnrs_{year}.html"
     check_num = re.compile('\([0-9]+\)')
     table = {}
     for year in years_to_check:
-        with urllib.request.urlopen(result_page.format(year=year)) as fp:
-            mybytes = fp.read()
-            html_doc = mybytes.decode("utf8")
+        try:
+            with urllib.request.urlopen(result_page.format(year=year)) as fp:
+                mybytes = fp.read()
+                html_doc = mybytes.decode("utf8")
+        except Exception as e:
+            print(f'The year {year} was probably not found.')
+            print(f'Page requested: {result_page.format(year=year)}')
+            print(f'The raise error: {e}')
+            continue
 
         for section in sections_to_check:
             done = set()
             start = html_doc.find(f'Concours {section:02d}')
-            while not '(CRCN)' in html_doc[start:].splitlines()[0]:
+            while (not '(CRCN)' in html_doc[start:].splitlines()[0] and
+                   start != -1):
                 start = html_doc[start+1:].find(f'Concours {section:02d}')+start+1
+            if start == -1:
+                print(f'Section {section} was not found for year {year}.')
+                print('It was therefore ignored.')
+                continue
             stop = html_doc[start:].find('<h2>') + start
             lines = html_doc[start:stop].splitlines()
             curr_status = 'Admis'
@@ -140,7 +152,6 @@ def get_stats_from_candidates(candidates, save_path=None):
     data = pd.DataFrame(pd_table, columns=['Name'] + all_keys)
 
     if save_path:
-        from pathlib import Path
         if not isinstance(save_path, Path):
             save_path = Path(save_path)
         if not save_path.parent.exists():
@@ -150,7 +161,9 @@ def get_stats_from_candidates(candidates, save_path=None):
 
 
 if __name__ == '__main__':
-    description='Scrape Google Scholar for CNRS applicants'
+    description="""Scrape Google Scholar for CNRS applicants,
+    only years from 2019 to 2022 are currently available.
+    (from https://www.coudert.name/concours_cnrs_{year}.html)"""
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('-s', '--sections', nargs='*', default=[7, 21, 22, 51],
                         type=int, help='Inform the sections to check')
@@ -159,7 +172,7 @@ if __name__ == '__main__':
     help_output = ('Output file, will create folder(s) if necessary, '+
                    'will always save as json')
     parser.add_argument('-o', '--output', default='Data.json',
-                        type=str, help=help_output)
+                        type=Path, help=help_output)
 
     args = parser.parse_args()
 
