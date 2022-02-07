@@ -4,6 +4,8 @@ This script allows to retrieve the applicants for the CNRS competitions of years
 
 The format it is saved in is not great and all but that's a start.
 
+**Also, the google scholar scrape is really (really) slow**
+
 ## Dependencies
 
 If one just wants to scrap the data:
@@ -31,6 +33,7 @@ I would recommand to run the command in a separated environement:
 ```
 conda create -n CNRS-scrape
 conda activate CNRS-scrape
+conda install pip
 pip install .
 ```
 
@@ -45,3 +48,7 @@ As many year as wanted can be given (thought only years from 2018 to now are acc
 Same for the sections.
 
 The output can be a file name or a path+file name. All the necessary folder(s) will be created.
+
+**It is important to remember that the scrape is quite slow!!**
+
+**Please, be patient :)**
