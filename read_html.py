@@ -117,6 +117,8 @@ def get_stats_from_candidates(candidates, save_path=None):
                     nb_per_year = {}
                     for p in author.get('publications'):
                         year = p['bib'].get('pub_year')
+                        if year is None:
+                            continue
                         if not year in nb_per_year:
                             nb_per_year[int(year)] = 0
                         nb_per_year[int(year)] += 1
