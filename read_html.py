@@ -116,18 +116,16 @@ def get_stats_from_candidates(candidates, save_path=None):
                     last = 0
                     nb_per_year = {}
                     for p in author.get('publications'):
-                        year = p['bib'].get('pub_year')
-                        if year is None:
-                            continue
-                        if not year in nb_per_year:
+                        year = p['bib'].get('pub_year', 0)
+                        if not int(year) in nb_per_year:
                             nb_per_year[int(year)] = 0
                         nb_per_year[int(year)] += 1
-                        first = int(year) if year and int(year)<first else first
+                        first = int(year) if year!=-1 and int(year)<first else first
                         last = int(year) if year and last<int(year) else last
                     info['citations'] = author.get('citedby')
                     for year in info['Years']:
-                        info[f'citations {year}'] = c_to_y(year, author)
-                        info[f'#publications {year}'] = p_to_y(year, nb_per_year)
+                        info[f'citations {year}'] = c_to_y(year-1, author)
+                        info[f'#publications {year}'] = p_to_y(year-1, nb_per_year)
                     info['website'] = author.get('homepage')
                     info['email'] = author.get('email_domain')
                     info['affiliation'] = author.get('affiliation')
