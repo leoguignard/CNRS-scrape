@@ -15,7 +15,7 @@ Finally, some people have homonyms, because I would rather have no data than fal
 
 ## Dependencies
 
-If one just wants to scrap the data:
+If one just wants to scrape the data:
 - [pandas](https://pandas.pydata.org/)
 - [scholarly](https://scholarly.readthedocs.io/en/stable/quickstart.html)
 
@@ -48,10 +48,10 @@ pip install .
 
 To retrieve the wanted data, after installation, one can run the command:
 ```
-python read_html.py --years 2020 2021 2022 --sections 7 21 22 51 --output data.json
+python read_html.py --years 2019 2020 2021 2022 --sections 7 21 22 51 --output data.json
 ```
 
-As many year as wanted can be given (thought only years from 2018 to now are accessible).
+As many year as wanted can be given (thought only years from 2019 to now are accessible).
 Same for the sections.
 
 The output can be a file name or a path+file name. All the necessary folder(s) will be created.
