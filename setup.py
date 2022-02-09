@@ -21,5 +21,5 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.8',
     ],
-    install_requires=['scholarly', 'pandas', 'jupyter', 'seaborn', 'matplotlib'],
+    install_requires=['scholarly', 'pandas', 'jupyter', 'seaborn', 'matplotlib', 'scipy'],
 )
